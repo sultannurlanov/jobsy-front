@@ -1,36 +1,58 @@
 import React from 'react';
-import { BottomNavigation, BottomNavigationAction } from '@mui/material';
+import { BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
-import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
-import ChatIcon from '@mui/icons-material/Chat';
-import PersonIcon from '@mui/icons-material/Person';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { Link } from 'react-router-dom';
+import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 
 export default function BottomNav() {
+  const [value, setValue] = React.useState(0);
+
   return (
-    <BottomNavigation
-      showLabels
+    <Paper
+      elevation={0}
       sx={{
         position: 'fixed',
         bottom: 0,
         left: 0,
         right: 0,
         backgroundColor: '#fff',
-        borderTop: '1px solid #eee',
+        borderTop: '1px solid #ECECEC',
+        maxWidth: '820px',
+        margin: '0 auto',
+        zIndex: 100,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '0 16px',
       }}
     >
-      <BottomNavigationAction component={Link} to="/" label="Главная" icon={<HomeIcon />} />
-      <BottomNavigationAction component={Link} to="/portfolio" label="Портфолио" icon={<BusinessCenterIcon />} />
-      <BottomNavigationAction component={Link} to="/chats" label="Чаты" icon={<ChatIcon />} />
-      <BottomNavigationAction component={Link} to="/profile" label="Профиль" icon={<PersonIcon />} />
-      <BottomNavigationAction
-        component={Link}
-        to="/add"
-        label="Добавить"
-        icon={<AddCircleIcon />}
-        sx={{ color: '#FF9800' }} // Оранжевый цвет
-      />
-    </BottomNavigation>
+      <BottomNavigation
+        value={value}
+        onChange={(event, newValue) => {
+          setValue(newValue);
+        }}
+        sx={{
+          backgroundColor: 'transparent',
+          boxShadow: 'none',
+          flex: 1,
+          '& .MuiBottomNavigationAction-root': {
+            minWidth: 0,
+            maxWidth: 'none',
+            flex: 1,
+            color: '#888',
+          },
+          '& .Mui-selected': {
+            color: '#F98C53',
+          },
+        }}
+        showLabels
+      >
+        <BottomNavigationAction label="Главная" icon={<HomeIcon />} />
+        <BottomNavigationAction label="Портфолио" icon={<WorkOutlineIcon />} />
+        <BottomNavigationAction label="Чаты" icon={<ChatBubbleOutlineIcon />} />
+        <BottomNavigationAction label="Профиль" icon={<PersonOutlineIcon />} />
+      </BottomNavigation>
+    </Paper>
   );
 }
