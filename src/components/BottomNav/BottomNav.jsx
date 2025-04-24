@@ -1,58 +1,82 @@
 import React from 'react';
-import { BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
-import HomeIcon from '@mui/icons-material/Home';
-import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
-import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import { BottomNavigation, BottomNavigationAction, Container } from '@mui/material';
+import { Link, useLocation } from 'react-router-dom';
+
+// Импорты SVG:
+import HomeIcon from '../../assets/icons/HomeIcon.svg';
+import PortfolioIcon from '../../assets/icons/PortfolioIcon.svg';
+import ChatIcon from '../../assets/icons/ChatIcon.svg';
+import ProfileIcon from '../../assets/icons/ProfileIcon.svg';
 
 export default function BottomNav() {
-  const [value, setValue] = React.useState(0);
+  const location = useLocation();
+  const [value, setValue] = React.useState(location.pathname);
+
+  React.useEffect(() => {
+    setValue(location.pathname);
+  }, [location.pathname]);
 
   return (
-    <Paper
-      elevation={0}
-      sx={{
+    <div
+      style={{
         position: 'fixed',
         bottom: 0,
         left: 0,
-        right: 0,
-        backgroundColor: '#fff',
-        borderTop: '1px solid #ECECEC',
-        maxWidth: '820px',
-        margin: '0 auto',
-        zIndex: 100,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '0 16px',
+        width: '100%',
+        // display: 'flex', // Убираем Flexbox
+        // justifyContent: 'center', // Убираем Flexbox
+        zIndex: 1200,
       }}
     >
-      <BottomNavigation
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-        }}
+      <Container
+        maxWidth="md"
         sx={{
-          backgroundColor: 'transparent',
-          boxShadow: 'none',
-          flex: 1,
-          '& .MuiBottomNavigationAction-root': {
-            minWidth: 0,
-            maxWidth: 'none',
-            flex: 1,
-            color: '#888',
-          },
-          '& .Mui-selected': {
-            color: '#F98C53',
-          },
+          bgcolor: 'background.paper',
         }}
-        showLabels
       >
-        <BottomNavigationAction label="Главная" icon={<HomeIcon />} />
-        <BottomNavigationAction label="Портфолио" icon={<WorkOutlineIcon />} />
-        <BottomNavigationAction label="Чаты" icon={<ChatBubbleOutlineIcon />} />
-        <BottomNavigationAction label="Профиль" icon={<PersonOutlineIcon />} />
-      </BottomNavigation>
-    </Paper>
+        <BottomNavigation
+          value={value}
+          onChange={(e, newValue) => setValue(newValue)}
+          showLabels
+          sx={{
+            borderTop: '1px solid #eee',
+            justifyContent: 'space-around', // Равномерное распределение иконок
+          }}
+        >
+          <BottomNavigationAction
+            label="Главная"
+            value="/"
+            component={Link}
+            to="/"
+            sx={{ "& .MuiBottomNavigationAction-label": { display: "none" } }}
+            icon={<img src={HomeIcon} alt="Главная" style={{ width: 50, height: 50 }} />}
+          />
+          <BottomNavigationAction
+            label="Портфолио"
+            value="/portfolio"
+            component={Link}
+            to="/portfolio"
+            sx={{ "& .MuiBottomNavigationAction-label": { display: "none" } }}
+            icon={<img src={PortfolioIcon} alt="Портфолио" style={{ width: 70, height: 70 }} />}
+          />
+          <BottomNavigationAction
+            label="Чаты"
+            value="/chats"
+            component={Link}
+            to="/chats"
+            sx={{ "& .MuiBottomNavigationAction-label": { display: "none" } }}
+            icon={<img src={ChatIcon} alt="Чаты" style={{ width: 50, height: 50 }} />}
+          />
+          <BottomNavigationAction
+            label="Профиль"
+            value="/profile"
+            component={Link}
+            to="/profile"
+            sx={{ "& .MuiBottomNavigationAction-label": { display: "none" } }}
+            icon={<img src={ProfileIcon} alt="Профиль" style={{ width: 50, height: 50 }} />}
+          />
+        </BottomNavigation>
+      </Container>
+    </div>
   );
 }

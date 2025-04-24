@@ -4,12 +4,12 @@ import { Grid, Container, Box, Button, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import AddIcon from '@mui/icons-material/Add';
 import BottomNav from '../../components/BottomNav/BottomNav';
-import './Home.css'; // Import the CSS file
 
 export default function Home() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const containerMaxWidth = 768;
+  // const bottomNavHeight = 56; // Больше не нужно
 
   const computeRight = () => {
     if (typeof window === "undefined") return 20;
@@ -44,9 +44,9 @@ export default function Home() {
   return (
     <Box sx={{ position: 'relative', minHeight: '100vh' }}>
       <Container maxWidth="md" sx={{ mt: 2, pb: 12 }}>
-        <Grid container spacing={2} className="card-container">
+        <Grid container spacing={2}>
           {cardsData.map((card) => (
-            <Grid item xs={12} sm={6} key={card.id}>
+            <Grid item xs={6} sm={6} key={card.id}>
               <VacancyCard employmentType={card.employmentType} color={card.color} textColor={card.textColor} />
             </Grid>
           ))}
@@ -58,7 +58,7 @@ export default function Home() {
         startIcon={<AddIcon />}
         sx={{
           position: 'fixed',
-          bottom: isMobile ? 80 : 100,
+          // bottom: isMobile ? 80 + bottomNavHeight : 100 + bottomNavHeight, // Убираем bottom
           right: right,
           zIndex: 1300,
           background: '#F98C53',
@@ -71,6 +71,8 @@ export default function Home() {
           textTransform: 'none',
           color: '#fff',
           transition: 'right 0.2s',
+          bottom: 100, //  Задаём bottom: 56 (высота BottomNav)
+          transform: 'translateY(28px)', // Смещаем кнопку вверх на половину высоты
         }}
       >
         Добавить
