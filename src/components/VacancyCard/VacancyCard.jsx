@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardMedia, Typography, Box, Chip } from '@mui/material';
 import { Link } from 'react-router-dom';
 
+
 export default function VacancyCard({ employmentType, color, textColor }) {
   // Функция, которая выбирает текст и цвет для "График: не указан"
   const getChipProps = () => {
