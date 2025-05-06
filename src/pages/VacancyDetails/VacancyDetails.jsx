@@ -24,7 +24,7 @@ export default function VacancyDetails() {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ position: 'relative', padding: 6, maxWidth: 600, mx: 'auto' }}>
+    <Box sx={{ position: 'relative', padding: 6, paddingBottom: 14, maxWidth: 600, mx: 'auto' }}>
       {/* Кнопка назад */}
       <IconButton
         onClick={() => navigate(-1)}
@@ -45,7 +45,7 @@ export default function VacancyDetails() {
           width: '100%',
           height: 180,
           backgroundColor: '#f5f5f5',
-          mt:6,
+          mt: 6,
           mb: 5,
           overflow: 'hidden',
           display: 'flex',
@@ -90,11 +90,38 @@ export default function VacancyDetails() {
       </Typography>
 
       {/* Теги */}
-      <Box mb={2}>
-        <Chip label="#перевозкагруза" sx={{ mr: 1 }} />
-        <Chip label="#почасоваяработа" sx={{ mr: 1 }} />
-        <Chip label="#уголь" />
-      </Box>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
+  <Chip
+    label="#перевозкагруза"
+    sx={{
+      bgcolor: '#F5F5F5', // или другой светлый фон, если нужен
+      '& .MuiChip-label': {
+        color: '#2F80ED', // синий цвет текста
+        fontWeight: 500,
+      },
+    }}
+  />
+  <Chip
+    label="#почасоваяработа"
+    sx={{
+      bgcolor: '#F5F5F5',
+      '& .MuiChip-label': {
+        color: '#2F80ED',
+        fontWeight: 500,
+      },
+    }}
+  />
+  <Chip
+    label="#уголь"
+    sx={{
+      bgcolor: '#F5F5F5',
+      '& .MuiChip-label': {
+        color: '#2F80ED',
+        fontWeight: 500,
+      },
+    }}
+  />
+</Box>
 
       {/* Похожие посты */}
       <Typography variant="h6" fontWeight="bold" mb={1}>
@@ -109,14 +136,70 @@ export default function VacancyDetails() {
         </Box>
       </Box>
 
-      {/* Кнопки "Позвонить" и "Начать чат" */}
-      <Box display="flex" gap={2} mb={2}>
-        <Button variant="contained" color="success" sx={{ flex: 1 }}>
-          Позвонить
-        </Button>
-        <Button variant="contained" color="warning" sx={{ flex: 1 }}>
-          Начать чат
-        </Button>
+      {/* Фиксированная панель снизу */}
+      <Box
+        sx={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          zIndex: 1000,
+          pointerEvents: 'none', // клики только по внутренней панели
+        }}
+      >
+        <Box
+          sx={{
+            width: '100%',
+            maxWidth: 600,
+            mx: 'auto',
+            bgcolor: '#fff',
+            borderTop: '1px solid #eee',
+            py: 2,
+            px: 2,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            boxSizing: 'border-box',
+            boxShadow: '0 -2px 8px rgba(0,0,0,0.04)',
+            pointerEvents: 'auto', // клики работают только на панели
+          }}
+        >
+          <Typography variant="h6" fontWeight="bold">
+            2000 сом
+          </Typography>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <Button
+              variant="contained"
+              sx={{
+                bgcolor: '#E1F0B9',
+                color: '#000',
+                '&:hover': { bgcolor: '#d0e6a6' },
+                textTransform: 'none',
+                fontWeight: 'bold',
+                boxShadow: 'none',
+                minWidth: 110,
+              }}
+            >
+              Позвонить
+            </Button>
+            <Button
+              variant="contained"
+              sx={{
+                bgcolor: '#F98C53',
+                color: '#fff',
+                '&:hover': { bgcolor: '#e07b3d' },
+                textTransform: 'none',
+                fontWeight: 'bold',
+                boxShadow: 'none',
+                minWidth: 110,
+              }}
+            >
+              Начать чат
+            </Button>
+          </Box>
+        </Box>
       </Box>
     </Box>
   );

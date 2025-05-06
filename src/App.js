@@ -10,6 +10,9 @@ import VacancyDetails from './pages/VacancyDetails/VacancyDetails';
 function App() {
   const location = useLocation();
 
+  // Проверяем, находится ли пользователь на странице вакансии
+  const isVacancyPage = location.pathname.startsWith('/vacancy/');
+
   return (
     <ThemeProvider theme={theme}>
       {location.pathname === '/' && <Header />}
@@ -17,7 +20,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/vacancy/:id" element={<VacancyDetails />} />
       </Routes>
-      <BottomNav />
+      
+      {/* Показываем BottomNav только НЕ на странице вакансии */}
+      {!isVacancyPage && <BottomNav />}
     </ThemeProvider>
   );
 }
