@@ -4,6 +4,7 @@ import { ReactComponent as BackArrowIcon } from '../../assets/icons/BackArrowIco
 import { ReactComponent as PriceIcon } from '../../assets/icons/PriceIcon.svg';
 import { ReactComponent as CalendarIcon } from '../../assets/icons/CalendarIcon.svg';
 import { ReactComponent as ClockIcon } from '../../assets/icons/ClockIcon.svg';
+import { ReactComponent as NoImageIcon } from '../../assets/icons/NoImageIcon.svg'; // SVG-заглушка
 import { useNavigate } from 'react-router-dom';
 
 // Компонент для строки с иконкой и текстом
@@ -19,6 +20,25 @@ function InfoRow({ icon: Icon, text }) {
     </Box>
   );
 }
+
+const similarPosts = [
+  {
+    id: 1,
+    title: '2 бала керек эртенкиге',
+    schedule: 'График: не указан',
+    price: '2000 сом',
+    published: 'Опубликовано – 1.03.25',
+    imageUrl: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308',
+  },
+  {
+    id: 2,
+    title: 'Мясник на той',
+    schedule: 'График: не указан',
+    price: '8000 сом',
+    published: 'Опубликовано – 5.03.25',
+    imageUrl: null,
+  },
+];
 
 export default function VacancyDetails() {
   const navigate = useNavigate();
@@ -51,12 +71,13 @@ export default function VacancyDetails() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          borderRadius: '12px',
         }}
       >
         <img
           src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308"
           alt="Вакансия"
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', borderRadius: '12px' }}
         />
       </Box>
 
@@ -91,118 +112,111 @@ export default function VacancyDetails() {
 
       {/* Теги */}
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
-  <Chip
-    label="#перевозкагруза"
-    sx={{
-      bgcolor: '#F5F5F5', // или другой светлый фон, если нужен
-      '& .MuiChip-label': {
-        color: '#2F80ED', // синий цвет текста
-        fontWeight: 500,
-      },
-    }}
-  />
-  <Chip
-    label="#почасоваяработа"
-    sx={{
-      bgcolor: '#F5F5F5',
-      '& .MuiChip-label': {
-        color: '#2F80ED',
-        fontWeight: 500,
-      },
-    }}
-  />
-  <Chip
-    label="#уголь"
-    sx={{
-      bgcolor: '#F5F5F5',
-      '& .MuiChip-label': {
-        color: '#2F80ED',
-        fontWeight: 500,
-      },
-    }}
-  />
-</Box>
+        <Chip
+          label="#перевозкагруза"
+          sx={{
+            bgcolor: '#F5F5F5',
+            '& .MuiChip-label': {
+              color: '#2F80ED',
+              fontWeight: 500,
+            },
+          }}
+        />
+        <Chip
+          label="#почасоваяработа"
+          sx={{
+            bgcolor: '#F5F5F5',
+            '& .MuiChip-label': {
+              color: '#2F80ED',
+              fontWeight: 500,
+            },
+          }}
+        />
+        <Chip
+          label="#уголь"
+          sx={{
+            bgcolor: '#F5F5F5',
+            '& .MuiChip-label': {
+              color: '#2F80ED',
+              fontWeight: 500,
+            },
+          }}
+        />
+      </Box>
 
       {/* Похожие посты */}
       <Typography variant="h6" fontWeight="bold" mb={1}>
         Похожие посты
       </Typography>
       <Box sx={{ display: 'flex', gap: 2, width: '100%', mb: 2 }}>
-  {/* Первая карточка */}
-  <Box
-  sx={{
-    flex: 1,
-    minWidth: 0,
-    bgcolor: '#fff',
-    borderRadius: 2,           // Скругление по всем углам
-    overflow: 'hidden',        // Важно, чтобы содержимое не выходило за скругления
-    boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
-    display: 'flex',
-    flexDirection: 'column',
-  }}
->
-  <Box sx={{ flexShrink: 0, height: 90, width: '100%', overflow: 'hidden' }}>
-    <img
-      src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308"
-      alt=""
-      style={{
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-        display: 'block',
-        borderRadius: 0,       // НЕ указываем border-radius у картинки
-      }}
-    />
-  </Box>
-  <Box sx={{ p: 1.5 }}>
-    <Typography variant="subtitle2" fontWeight={500} sx={{  }}>
-      2 бала керек эртенкиге
-    </Typography>
-    <Typography variant="caption" color="text.secondary" sx={{ }}>
-      График: не указан
-    </Typography>
-    <Typography variant="subtitle1" fontWeight="bold">
-      2000 сом
-    </Typography>
-    <Typography variant="caption" color="text.secondary">
-      Опубликовано – 1.03.25
-    </Typography>
-  </Box>
-</Box>
-  {/* Вторая карточка */}
-  <Box
-    sx={{
-      flex: 1,
-      minWidth: 0,
-      bgcolor: '#fff',
-      borderRadius: 2,
-      overflow: 'hidden',
-      boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
-      display: 'flex',
-      flexDirection: 'column',
-    }}
-  >
-    <Box sx={{ height: 90, display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: '#eee' }}>
-      {/* Иконка "нет изображения" */}
-      <svg width={40} height={40} fill="#bbb"><rect width="100%" height="100%" rx="8" fill="#eee" /></svg>
-    </Box>
-    <Box sx={{ p: 1.5 }}>
-      <Typography variant="subtitle2" fontWeight={500} sx={{ mb: 0.5 }}>
-        Мясник на той
-      </Typography>
-      <Typography variant="caption" color="text.secondary" sx={{ mb: 0.5 }}>
-        График: не указан
-      </Typography>
-      <Typography variant="subtitle1" fontWeight="bold">
-        8000 сом
-      </Typography>
-      <Typography variant="caption" color="text.secondary">
-        Опубликовано – 5.03.25
-      </Typography>
-    </Box>
-  </Box>
-</Box>
-
+        {similarPosts.map((post) => (
+          <Box
+            key={post.id}
+            sx={{
+              flex: 1,
+              minWidth: 0,
+              bgcolor: '#fff',
+              borderRadius: '12px',
+              overflow: 'hidden',
+              boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            <Box
+              sx={{
+                flexShrink: 0,
+                height: 90,
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                bgcolor: post.imageUrl ? undefined : '#eee',
+                borderRadius: '12px',
+                overflow: 'hidden',
+              }}
+            >
+              {post.imageUrl ? (
+                <img
+                  src={post.imageUrl}
+                  alt={post.title}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block',
+                    borderRadius: '12px',
+                  }}
+                />
+              ) : (
+                <NoImageIcon
+                  style={{
+                    width: 40,
+                    height: 40,
+                    opacity: 0.8,
+                    borderRadius: '12px',
+                    display: 'block',
+                  }}
+                />
+              )}
+            </Box>
+            <Box sx={{ p: 1.5, bgcolor: '#fff', flexGrow: 1 }}>
+              <Typography variant="subtitle2" fontWeight={500} sx={{ mb: 0.5 }}>
+                {post.title}
+              </Typography>
+              <Typography variant="caption" color="text.secondary" sx={{ mb: 0.5 }}>
+                {post.schedule}
+              </Typography>
+              <Typography variant="subtitle1" fontWeight="bold">
+                {post.price}
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                {post.published}
+              </Typography>
+            </Box>
+          </Box>
+        ))}
+      </Box>
 
       {/* Фиксированная панель снизу */}
       <Box
@@ -214,7 +228,7 @@ export default function VacancyDetails() {
           display: 'flex',
           justifyContent: 'center',
           zIndex: 1000,
-          pointerEvents: 'none', // клики только по внутренней панели
+          pointerEvents: 'none',
         }}
       >
         <Box
@@ -231,7 +245,7 @@ export default function VacancyDetails() {
             justifyContent: 'space-between',
             boxSizing: 'border-box',
             boxShadow: '0 -2px 8px rgba(0,0,0,0.04)',
-            pointerEvents: 'auto', // клики работают только на панели
+            pointerEvents: 'auto',
           }}
         >
           <Typography variant="h6" fontWeight="bold">
