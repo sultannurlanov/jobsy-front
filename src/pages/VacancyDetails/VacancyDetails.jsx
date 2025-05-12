@@ -127,14 +127,82 @@ export default function VacancyDetails() {
       <Typography variant="h6" fontWeight="bold" mb={1}>
         Похожие посты
       </Typography>
-      <Box display="flex" gap={2} mb={2}>
-        <Box sx={{ width: 120, height: 90, background: '#eee', borderRadius: 2, overflow: 'hidden' }}>
-          {/* Здесь можно добавить картинку и инфо похожего поста */}
-        </Box>
-        <Box sx={{ width: 120, height: 90, background: '#eee', borderRadius: 2, overflow: 'hidden' }}>
-          {/* Здесь можно добавить картинку и инфо похожего поста */}
-        </Box>
-      </Box>
+      <Box sx={{ display: 'flex', gap: 2, width: '100%', mb: 2 }}>
+  {/* Первая карточка */}
+  <Box
+  sx={{
+    flex: 1,
+    minWidth: 0,
+    bgcolor: '#fff',
+    borderRadius: 2,           // Скругление по всем углам
+    overflow: 'hidden',        // Важно, чтобы содержимое не выходило за скругления
+    boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
+    display: 'flex',
+    flexDirection: 'column',
+  }}
+>
+  <Box sx={{ flexShrink: 0, height: 90, width: '100%', overflow: 'hidden' }}>
+    <img
+      src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308"
+      alt=""
+      style={{
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+        display: 'block',
+        borderRadius: 0,       // НЕ указываем border-radius у картинки
+      }}
+    />
+  </Box>
+  <Box sx={{ p: 1.5 }}>
+    <Typography variant="subtitle2" fontWeight={500} sx={{  }}>
+      2 бала керек эртенкиге
+    </Typography>
+    <Typography variant="caption" color="text.secondary" sx={{ }}>
+      График: не указан
+    </Typography>
+    <Typography variant="subtitle1" fontWeight="bold">
+      2000 сом
+    </Typography>
+    <Typography variant="caption" color="text.secondary">
+      Опубликовано – 1.03.25
+    </Typography>
+  </Box>
+</Box>
+  {/* Вторая карточка */}
+  <Box
+    sx={{
+      flex: 1,
+      minWidth: 0,
+      bgcolor: '#fff',
+      borderRadius: 2,
+      overflow: 'hidden',
+      boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
+      display: 'flex',
+      flexDirection: 'column',
+    }}
+  >
+    <Box sx={{ height: 90, display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: '#eee' }}>
+      {/* Иконка "нет изображения" */}
+      <svg width={40} height={40} fill="#bbb"><rect width="100%" height="100%" rx="8" fill="#eee" /></svg>
+    </Box>
+    <Box sx={{ p: 1.5 }}>
+      <Typography variant="subtitle2" fontWeight={500} sx={{ mb: 0.5 }}>
+        Мясник на той
+      </Typography>
+      <Typography variant="caption" color="text.secondary" sx={{ mb: 0.5 }}>
+        График: не указан
+      </Typography>
+      <Typography variant="subtitle1" fontWeight="bold">
+        8000 сом
+      </Typography>
+      <Typography variant="caption" color="text.secondary">
+        Опубликовано – 5.03.25
+      </Typography>
+    </Box>
+  </Box>
+</Box>
+
 
       {/* Фиксированная панель снизу */}
       <Box
