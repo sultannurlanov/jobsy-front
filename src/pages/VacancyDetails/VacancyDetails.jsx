@@ -4,7 +4,7 @@ import { ReactComponent as BackArrowIcon } from '../../assets/icons/BackArrowIco
 import { ReactComponent as PriceIcon } from '../../assets/icons/PriceIcon.svg';
 import { ReactComponent as CalendarIcon } from '../../assets/icons/CalendarIcon.svg';
 import { ReactComponent as ClockIcon } from '../../assets/icons/ClockIcon.svg';
-import { ReactComponent as NoImageIcon } from '../../assets/icons/NoImageIcon.svg'; // SVG-заглушка
+import { ReactComponent as NoImageIcon } from '../../assets/icons/NoImageIcon.svg';
 import { useNavigate } from 'react-router-dom';
 
 // Компонент для строки с иконкой и текстом
@@ -21,6 +21,7 @@ function InfoRow({ icon: Icon, text }) {
   );
 }
 
+// Данные похожих постов
 const similarPosts = [
   {
     id: 1,
@@ -36,7 +37,7 @@ const similarPosts = [
     schedule: 'График: не указан',
     price: '8000 сом',
     published: 'Опубликовано – 5.03.25',
-    imageUrl: null,
+    imageUrl: null, // Нет фото
   },
 ];
 
@@ -194,7 +195,6 @@ export default function VacancyDetails() {
                     width: 40,
                     height: 40,
                     opacity: 0.8,
-                    borderRadius: '12px',
                     display: 'block',
                   }}
                 />
@@ -204,9 +204,27 @@ export default function VacancyDetails() {
               <Typography variant="subtitle2" fontWeight={500} sx={{ mb: 0.5 }}>
                 {post.title}
               </Typography>
-              <Typography variant="caption" color="text.secondary" sx={{ mb: 0.5 }}>
-                {post.schedule}
-              </Typography>
+              {post.schedule === 'График: не указан' ? (
+                <Chip
+                  label={post.schedule}
+                  sx={{
+                    bgcolor: '#F0F2F5',
+                    color: '#1C1C1C80',
+                    fontWeight: 500,
+                    fontSize: 14,
+                    borderRadius: '8px',
+                    height: 24,
+                    px: 1.5,
+                    mb: 0.5,
+                  }}
+                  variant="filled"
+                  size="small"
+                />
+              ) : (
+                <Typography variant="caption" color="text.secondary" sx={{ mb: 0.5 }}>
+                  {post.schedule}
+                </Typography>
+              )}
               <Typography variant="subtitle1" fontWeight="bold">
                 {post.price}
               </Typography>
