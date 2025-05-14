@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { IconButton, Box, Avatar, Typography, Chip, Button } from '@mui/material';
 import { ReactComponent as BackArrowIcon } from '../../assets/icons/BackArrowIcon.svg';
 import { ReactComponent as PriceIcon } from '../../assets/icons/PriceIcon.svg';
 import { ReactComponent as CalendarIcon } from '../../assets/icons/CalendarIcon.svg';
 import { ReactComponent as ClockIcon } from '../../assets/icons/ClockIcon.svg';
 import { ReactComponent as NoImageIcon } from '../../assets/icons/NoImageIcon.svg';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 // Компонент для строки с иконкой и текстом
 function InfoRow({ icon: Icon, text }) {
@@ -21,7 +21,7 @@ function InfoRow({ icon: Icon, text }) {
   );
 }
 
-// Данные похожих постов
+// Пример данных похожих постов
 const similarPosts = [
   {
     id: 1,
@@ -37,12 +37,18 @@ const similarPosts = [
     schedule: 'График: не указан',
     price: '8000 сом',
     published: 'Опубликовано – 5.03.25',
-    imageUrl: null, // Нет фото
+    imageUrl: null,
   },
 ];
 
 export default function VacancyDetails() {
   const navigate = useNavigate();
+  const { id } = useParams();
+
+  useEffect(() => {
+    // Здесь можно загрузить данные вакансии по id из API
+    console.log('Загружаем данные вакансии с id:', id);
+  }, [id]);
 
   return (
     <Box sx={{ position: 'relative', padding: 6, paddingBottom: 14, maxWidth: 600, mx: 'auto' }}>
@@ -92,7 +98,7 @@ export default function VacancyDetails() {
 
       {/* Заголовок */}
       <Typography variant="h6" fontWeight="bold" mb={1}>
-        Уголь ташыганы адам керек
+        Уголь ташыганы адам керек (id: {id})
       </Typography>
 
       {/* Дата публикации */}
@@ -153,6 +159,7 @@ export default function VacancyDetails() {
         {similarPosts.map((post) => (
           <Box
             key={post.id}
+            onClick={() => navigate(`/vacancy/${post.id}`)}
             sx={{
               flex: 1,
               minWidth: 0,
@@ -162,6 +169,11 @@ export default function VacancyDetails() {
               boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
               display: 'flex',
               flexDirection: 'column',
+              cursor: 'pointer',
+              transition: 'box-shadow 0.2s',
+              '&:hover': {
+                boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+              },
             }}
           >
             <Box
@@ -295,6 +307,7 @@ export default function VacancyDetails() {
                 boxShadow: 'none',
                 minWidth: 110,
               }}
+              onClick={() => navigate('/chat/1')} // 1 - id пользователя для чата
             >
               Начать чат
             </Button>
