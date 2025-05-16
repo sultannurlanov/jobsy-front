@@ -21,6 +21,7 @@ function InfoRow({ icon: Icon, text }) {
   );
 }
 
+
 // Пример данных похожих постов
 const similarPosts = [
   {
