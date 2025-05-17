@@ -6,6 +6,8 @@ import {
   InputBase,
   Paper,
   Avatar,
+  Menu,
+  MenuItem,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBackIosNew';
 import AddIcon from '@mui/icons-material/Add';
@@ -32,19 +34,20 @@ export default function ChatPage() {
       text: 'Да я на выходных все сделаю и буюрса на след недели мы подключим API еще как закончу РСК  буду больше уделять время над нашим проектом',
       time: '16 мая 2025, 20:28',
       fromMe: false,
-      avatar: 'https://randomuser.me/api/portraits/men/32.jpg', // пример аватарки
+      avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
     },
   ]);
 
-  const user = {
-    name: 'Асанов Асан',
-    lastSeen: 'Был в сети: 12 мин назад',
+  // --- Состояния для меню ---
+  const [menuAnchorEl, setMenuAnchorEl] = useState(null);
+  const isMenuOpen = Boolean(menuAnchorEl);
+
+  const handleMenuOpen = (event) => {
+    setMenuAnchorEl(event.currentTarget);
   };
-  const vacancy = {
-    id: 1,
-    title: 'Уголь ташыганы адам керек something...',
-    price: '2000 сом',
-    image: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308',
+
+  const handleMenuClose = () => {
+    setMenuAnchorEl(null);
   };
 
   const handleChange = (e) => setMessage(e.target.value);
@@ -68,6 +71,17 @@ export default function ChatPage() {
       },
     ]);
     setMessage('');
+  };
+
+  const user = {
+    name: 'Асанов Асан',
+    lastSeen: 'Был в сети: 12 мин назад',
+  };
+  const vacancy = {
+    id: 1,
+    title: 'Уголь ташыганы адам керек something...',
+    price: '2000 сом',
+    image: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308',
   };
 
   return (
@@ -110,11 +124,91 @@ export default function ChatPage() {
           <IconButton sx={{ p: 1.2 }}>
             <PhoneIcon style={{ color: '#757575', width: 24, height: 24 }} />
           </IconButton>
-          <IconButton>
-            <MoreIcon style={{ color: '#757575', width: 24, height: 24 }} />
+          <IconButton onClick={handleMenuOpen}>
+            <MoreIcon style={{ color: '#222', width: 24, height: 24 }} />
           </IconButton>
         </Box>
       </Box>
+
+      {/* Меню трёх точек */}
+    <Menu
+  anchorEl={menuAnchorEl}
+  open={isMenuOpen}
+  onClose={handleMenuClose}
+  anchorOrigin={{
+    vertical: 'bottom',
+    horizontal: 'right',
+  }}
+  transformOrigin={{
+    vertical: 'top',
+    horizontal: 'right',
+  }}
+  PaperProps={{
+    sx: {
+      mt: 1,
+      minWidth: 200,
+      borderRadius: 2,
+      bgcolor: '#FAFAFA', // или #F5F5F5
+      boxShadow: '0px 4px 24px rgba(0,0,0,0.10)',
+      p: 0,
+    },
+  }}
+>
+  <MenuItem
+    onClick={handleMenuClose}
+    sx={{
+      color: '#000',
+      fontSize: 16,
+      fontWeight: 400,
+      '&:hover': {
+        bgcolor: '#FAFAFA', // фон не меняется при наведении
+      },
+    }}
+  >
+    Выкл. уведомление
+  </MenuItem>
+  <MenuItem
+    onClick={handleMenuClose}
+    sx={{
+      color: '#000',
+      fontSize: 16,
+      fontWeight: 400,
+      '&:hover': {
+        bgcolor: '#FAFAFA',
+      },
+    }}
+  >
+    Пожаловаться
+  </MenuItem>
+  <MenuItem
+    onClick={handleMenuClose}
+    sx={{
+      color: '#000',
+      fontSize: 16,
+      fontWeight: 400,
+      '&:hover': {
+        bgcolor: '#FAFAFA',
+      },
+    }}
+  >
+    Заблокировать
+  </MenuItem>
+  <MenuItem
+    onClick={handleMenuClose}
+    sx={{
+      color: '#000', 
+      fontSize: 16,
+      fontWeight: 400,
+      '&:hover': {
+        bgcolor: '#FAFAFA',
+      },
+    }}
+  >
+    Очистить чат
+  </MenuItem>
+</Menu>
+
+
 
       {/* Карточка вакансии - кликабельная */}
       <Link
