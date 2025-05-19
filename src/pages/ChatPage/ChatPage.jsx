@@ -8,16 +8,84 @@ import {
   Avatar,
   Menu,
   MenuItem,
+  Dialog,
+  DialogContent,
+  Button,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBackIosNew';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Link, useNavigate } from 'react-router-dom';
 
-// Импортируй свои SVG-иконки
+// Импорт SVG-иконок
 import { ReactComponent as PhoneIcon } from '../../assets/icons/PhoneIcon.svg';
 import { ReactComponent as MoreIcon } from '../../assets/icons/MoreIcon.svg';
 import { ReactComponent as SendIconCustom } from '../../assets/icons/SendIconCustom.svg';
+import { ReactComponent as PhoneBlockedIcon } from '../../assets/icons/PhoneBlockedIcon.svg';
+
+// Кнопка телефона с модалкой
+function ChatPhoneButton({ phoneNumber, canCall }) {
+  const [open, setOpen] = useState(false);
+
+  const handleCallClick = () => {
+    if (canCall) {
+      window.location.href = `tel:${phoneNumber}`;
+    } else {
+      setOpen(true);
+    }
+  };
+
+  return (
+    <>
+      <IconButton onClick={handleCallClick} sx={{ p: 1.2 }}>
+        <PhoneIcon style={{ width: 24, height: 24, color: '#222' }} />
+      </IconButton>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        PaperProps={{
+          sx: {
+            borderRadius: 3,
+            p: 0,
+            minWidth: 320,
+            maxWidth: 340,
+          },
+        }}
+      >
+        <DialogContent sx={{ textAlign: 'center', p: 3, pb: 2 }}>
+          <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center' }}>
+            <PhoneBlockedIcon style={{ width: 48, height: 48, color: '#BDBDBD' }} />
+          </Box>
+          <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
+            Не удалось дозвониться
+          </Typography>
+          <Typography color="text.secondary" sx={{ mb: 3 }}>
+            Этот пользователь не принимает звонки.<br />
+            Для связи используйте только текстовые сообщения
+          </Typography>
+          <Button
+            variant="contained"
+            fullWidth
+            sx={{
+              bgcolor: '#F98C53',
+              color: '#fff',
+              fontWeight: 500,
+              borderRadius: 2,
+              boxShadow: 'none',
+              textTransform: 'none',
+              fontSize: 16,
+              py: 1.2,
+              '&:hover': { bgcolor: '#e6783f' },
+            }}
+            onClick={() => setOpen(false)}
+          >
+            Хорошо
+          </Button>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+}
 
 export default function ChatPage() {
   const navigate = useNavigate();
@@ -42,13 +110,8 @@ export default function ChatPage() {
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
   const isMenuOpen = Boolean(menuAnchorEl);
 
-  const handleMenuOpen = (event) => {
-    setMenuAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setMenuAnchorEl(null);
-  };
+  const handleMenuOpen = (event) => setMenuAnchorEl(event.currentTarget);
+  const handleMenuClose = () => setMenuAnchorEl(null);
 
   const handleChange = (e) => setMessage(e.target.value);
 
@@ -76,7 +139,10 @@ export default function ChatPage() {
   const user = {
     name: 'Асанов Асан',
     lastSeen: 'Был в сети: 12 мин назад',
+    phoneNumber: '+996700123456', // номер для теста
+    canCall: false, // поменяй на true, если хочешь разрешить звонок
   };
+
   const vacancy = {
     id: 1,
     title: 'Уголь ташыганы адам керек something...',
@@ -121,9 +187,8 @@ export default function ChatPage() {
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', gap: 1 }}>
-          <IconButton sx={{ p: 1.2 }}>
-            <PhoneIcon style={{ color: '#757575', width: 24, height: 24 }} />
-          </IconButton>
+          {/* Вот здесь используем ChatPhoneButton */}
+          <ChatPhoneButton phoneNumber={user.phoneNumber} canCall={user.canCall} />
           <IconButton onClick={handleMenuOpen}>
             <MoreIcon style={{ color: '#222', width: 24, height: 24 }} />
           </IconButton>
@@ -131,86 +196,76 @@ export default function ChatPage() {
       </Box>
 
       {/* Меню трёх точек */}
-    <Menu
-  anchorEl={menuAnchorEl}
-  open={isMenuOpen}
-  onClose={handleMenuClose}
-  anchorOrigin={{
-    vertical: 'bottom',
-    horizontal: 'right',
-  }}
-  transformOrigin={{
-    vertical: 'top',
-    horizontal: 'right',
-  }}
-  PaperProps={{
-    sx: {
-      mt: 1,
-      minWidth: 200,
-      borderRadius: 2,
-      bgcolor: '#FAFAFA', // или #F5F5F5
-      boxShadow: '0px 4px 24px rgba(0,0,0,0.10)',
-      p: 0,
-    },
-  }}
->
-  <MenuItem
-    onClick={handleMenuClose}
-    sx={{
-      color: '#000',
-      fontSize: 16,
-      fontWeight: 400,
-      '&:hover': {
-        bgcolor: '#FAFAFA', // фон не меняется при наведении
-      },
-    }}
-  >
-    Выкл. уведомление
-  </MenuItem>
-  <MenuItem
-    onClick={handleMenuClose}
-    sx={{
-      color: '#000',
-      fontSize: 16,
-      fontWeight: 400,
-      '&:hover': {
-        bgcolor: '#FAFAFA',
-      },
-    }}
-  >
-    Пожаловаться
-  </MenuItem>
-  <MenuItem
-    onClick={handleMenuClose}
-    sx={{
-      color: '#000',
-      fontSize: 16,
-      fontWeight: 400,
-      '&:hover': {
-        bgcolor: '#FAFAFA',
-      },
-    }}
-  >
-    Заблокировать
-  </MenuItem>
-  <MenuItem
-    onClick={handleMenuClose}
-    sx={{
-      color: '#000', 
-      fontSize: 16,
-      fontWeight: 400,
-      '&:hover': {
-        bgcolor: '#FAFAFA',
-      },
-    }}
-  >
-    Очистить чат
-  </MenuItem>
-</Menu>
+      <Menu
+        anchorEl={menuAnchorEl}
+        open={isMenuOpen}
+        onClose={handleMenuClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        PaperProps={{
+          sx: {
+            mt: 1,
+            minWidth: 200,
+            borderRadius: 2,
+            bgcolor: '#FAFAFA',
+            boxShadow: '0px 4px 24px rgba(0,0,0,0.10)',
+            p: 0,
+          },
+        }}
+      >
+        <MenuItem
+          onClick={handleMenuClose}
+          sx={{
+            color: '#000',
+            fontSize: 16,
+            fontWeight: 400,
+            '&:hover': { bgcolor: '#FAFAFA' },
+          }}
+        >
+          Выкл. уведомление
+        </MenuItem>
+        <MenuItem
+          onClick={handleMenuClose}
+          sx={{
+            color: '#000',
+            fontSize: 16,
+            fontWeight: 400,
+            '&:hover': { bgcolor: '#FAFAFA' },
+          }}
+        >
+          Пожаловаться
+        </MenuItem>
+        <MenuItem
+          onClick={handleMenuClose}
+          sx={{
+            color: '#000',
+            fontSize: 16,
+            fontWeight: 400,
+            '&:hover': { bgcolor: '#FAFAFA' },
+          }}
+        >
+          Заблокировать
+        </MenuItem>
+        <MenuItem
+          onClick={handleMenuClose}
+          sx={{
+            color: '#000',
+            fontSize: 16,
+            fontWeight: 400,
+            '&:hover': { bgcolor: '#FAFAFA' },
+          }}
+        >
+          Очистить чат
+        </MenuItem>
+      </Menu>
 
-
-
-      {/* Карточка вакансии - кликабельная */}
+      {/* Карточка вакансии */}
       <Link
         to={`/vacancy/${vacancy.id}`}
         style={{ textDecoration: 'none' }}
@@ -259,7 +314,6 @@ export default function ChatPage() {
               mb: 2,
             }}
           >
-            {/* Аватарка только у входящих */}
             {!msg.fromMe && (
               <Avatar
                 src={msg.avatar}
