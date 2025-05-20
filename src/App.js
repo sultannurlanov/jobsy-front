@@ -7,26 +7,25 @@ import BottomNav from './components/BottomNav/BottomNav';
 import VacancyDetails from './pages/VacancyDetails/VacancyDetails';
 import ChatPage from './pages/ChatPage/ChatPage';
 import { Route, Routes, useLocation } from 'react-router-dom';
+import ChatListPage from './pages/ChatListPage';
 
 function App() {
   const location = useLocation();
 
-  // Проверяем, находится ли пользователь на странице вакансии или чата
   const isVacancyPage = location.pathname.startsWith('/vacancy/');
-  const isChatPage = location.pathname.startsWith('/chat/');
+  const isChatPage = location.pathname.startsWith('/chats/'); // учитываем только /chats/
 
   return (
     <ThemeProvider theme={theme}>
-      {/* Показываем Header только на главной странице */}
       {location.pathname === '/' && <Header />}
 
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/vacancy/:id" element={<VacancyDetails />} />
-        <Route path="/chat/:userId" element={<ChatPage />} />
+        <Route path="/chats" element={<ChatListPage />} />
+        <Route path="/chats/:chatId" element={<ChatPage />} />
       </Routes>
-      
-      {/* Показываем BottomNav только если НЕ на странице вакансии и НЕ на странице чата */}
+
       {!isVacancyPage && !isChatPage && <BottomNav />}
     </ThemeProvider>
   );
