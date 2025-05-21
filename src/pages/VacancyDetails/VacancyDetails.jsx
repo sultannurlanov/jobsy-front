@@ -7,6 +7,8 @@ import { ReactComponent as ClockIcon } from '../../assets/icons/ClockIcon.svg';
 import { ReactComponent as NoImageIcon } from '../../assets/icons/NoImageIcon.svg';
 import { useNavigate, useParams } from 'react-router-dom';
 
+
+
 // Компонент для строки с иконкой и текстом
 function InfoRow({ icon: Icon, text }) {
   return (
@@ -308,7 +310,7 @@ export default function VacancyDetails() {
                 boxShadow: 'none',
                 minWidth: 110,
               }}
-              onClick={() => navigate('/chat/1')} // 1 - id пользователя для чата
+              onClick={() => navigate('/chats/1')} // 1 - id пользователя для чата
             >
               Начать чат
             </Button>

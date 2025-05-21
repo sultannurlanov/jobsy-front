@@ -15,7 +15,8 @@ import {
 import ArrowBackIcon from '@mui/icons-material/ArrowBackIosNew';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { Link, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { allChats } from './allChats';
 
 // Импорт SVG-иконок
 import { ReactComponent as PhoneIcon } from '../../assets/icons/PhoneIcon.svg';
@@ -87,24 +88,16 @@ function ChatPhoneButton({ phoneNumber, canCall }) {
   );
 }
 
+// --- ОСНОВНОЙ КОМПОНЕНТ ---
 export default function ChatPage() {
+  const { chatId } = useParams();
   const navigate = useNavigate();
+
+  const chat = allChats.find(c => c.id === chatId);
+
+  // Хуки объявляем ДО любого return!
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      text: 'Даниэль на выходных ты добьешь сервер JWT , на следующей недели давай уже подключим API',
-      time: '16 мая 2025, 20:20',
-      fromMe: true,
-    },
-    {
-      id: 2,
-      text: 'Да я на выходных все сделаю и буюрса на след недели мы подключим API еще как закончу РСК  буду больше уделять время над нашим проектом',
-      time: '16 мая 2025, 20:28',
-      fromMe: false,
-      avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
-    },
-  ]);
+  const [messages, setMessages] = useState(chat ? chat.messages : []);
 
   // --- Состояния для меню ---
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
@@ -136,19 +129,10 @@ export default function ChatPage() {
     setMessage('');
   };
 
-  const user = {
-    name: 'Асанов Асан',
-    lastSeen: 'Был в сети: 12 мин назад',
-    phoneNumber: '+996700123456', // номер для теста
-    canCall: false, // поменяй на true, если хочешь разрешить звонок
-  };
+  if (!chat) return <div>Чат не найден</div>;
 
-  const vacancy = {
-    id: 1,
-    title: 'Уголь ташыганы адам керек something...',
-    price: '2000 сом',
-    image: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308',
-  };
+  const user = chat.user;
+  const vacancy = chat.vacancy;
 
   return (
     <Box
