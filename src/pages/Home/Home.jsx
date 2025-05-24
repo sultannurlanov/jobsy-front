@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import VacancyCard from '../../components/VacancyCard/VacancyCard';
 import { Grid, Container, Box, Button, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import AddIcon from '@mui/icons-material/Add';
 import BottomNav from '../../components/BottomNav/BottomNav';
 
+import { useAuth } from '../../context/AuthContext';
+import AuthRequiredModal from '../../components/AuthRequiredModal';
+import { useNavigate } from 'react-router-dom';
+
 export default function Home() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const containerMaxWidth = 768;
-  // const bottomNavHeight = 56; // Больше не нужно
 
   const computeRight = () => {
     if (typeof window === "undefined") return 20;
@@ -41,13 +44,30 @@ export default function Home() {
     { id: 10, employmentType: "Удаленная работа", color: '#EDE7F6', textColor: '#673AB7' },
   ];
 
+  const { isAuth } = useAuth();
+  const navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleVacancyClick = (id) => {
+    if (!isAuth) {
+      setModalOpen(true);
+    } else {
+      navigate(`/vacancy/${id}`);
+    }
+  };
+
   return (
     <Box sx={{ position: 'relative', minHeight: '100vh' }}>
       <Container maxWidth="md" sx={{ mt: 2, pb: 12 }}>
         <Grid container spacing={2}>
           {cardsData.map((card) => (
             <Grid item xs={6} sm={6} key={card.id}>
-              <VacancyCard employmentType={card.employmentType} color={card.color} textColor={card.textColor} />
+              <VacancyCard
+                employmentType={card.employmentType}
+                color={card.color}
+                textColor={card.textColor}
+                onClick={() => handleVacancyClick(card.id)}
+              />
             </Grid>
           ))}
         </Grid>
@@ -58,7 +78,6 @@ export default function Home() {
         startIcon={<AddIcon />}
         sx={{
           position: 'fixed',
-          // bottom: isMobile ? 80 + bottomNavHeight : 100 + bottomNavHeight, // Убираем bottom
           right: right,
           zIndex: 1300,
           background: '#F98C53',
@@ -71,13 +90,15 @@ export default function Home() {
           textTransform: 'none',
           color: '#fff',
           transition: 'right 0.2s',
-          bottom: 100, //  Задаём bottom: 56 (высота BottomNav)
-          transform: 'translateY(28px)', // Смещаем кнопку вверх на половину высоты
+          bottom: 100,
+          transform: 'translateY(28px)',
         }}
       >
         Добавить
       </Button>
       <BottomNav />
+
+      <AuthRequiredModal open={modalOpen} onClose={() => setModalOpen(false)} />
     </Box>
   );
 }

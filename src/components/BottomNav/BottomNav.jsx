@@ -1,6 +1,6 @@
 import React from 'react';
 import { BottomNavigation, BottomNavigationAction, Container } from '@mui/material';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ReactComponent as HomeIcon } from '../../assets/icons/HomeIcon.svg';
 import { ReactComponent as PortfolioIcon } from '../../assets/icons/PortfolioIcon.svg';
@@ -13,34 +13,53 @@ const navItems = [
     value: '/',
     icon: HomeIcon,
     iconStyle: { width: 50, height: 50 },
+    requiresAuth: false,
   },
   {
     label: 'Портфолио',
     value: '/portfolio',
     icon: PortfolioIcon,
-    iconStyle: { width: 70, height: 50 }, // увеличь ширину, если надо!
+    iconStyle: { width: 70, height: 50 },
+    requiresAuth: true,
   },
   {
     label: 'Чаты',
     value: '/chats',
     icon: ChatIcon,
     iconStyle: { width: 50, height: 50 },
+    requiresAuth: true,
   },
   {
     label: 'Профиль',
     value: '/profile',
     icon: ProfileIcon,
     iconStyle: { width: 50, height: 50 },
+    requiresAuth: true,
   },
 ];
 
-export default function BottomNav() {
+export default function BottomNav({ onNavClick }) {
   const location = useLocation();
   const [value, setValue] = React.useState(location.pathname);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     setValue(location.pathname);
   }, [location.pathname]);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+    const navItem = navItems.find((item) => item.value === newValue);
+    if (!navItem) return;
+
+    if (navItem.requiresAuth) {
+      // Call parent's handler to check auth and open modal if needed
+      onNavClick(newValue, true);
+    } else {
+      // Navigate directly for public routes
+      navigate(newValue);
+    }
+  };
 
   return (
     <div
@@ -55,8 +74,8 @@ export default function BottomNav() {
       <Container maxWidth="md" sx={{ bgcolor: 'background.paper' }}>
         <BottomNavigation
           value={value}
-          onChange={(e, newValue) => setValue(newValue)}
-          showLabels={false} // подписи отключены, т.к. они внутри SVG
+          onChange={handleChange}
+          showLabels={false} // labels inside SVG icons
           sx={{
             borderTop: '1px solid #eee',
             justifyContent: 'space-around',
@@ -68,8 +87,6 @@ export default function BottomNav() {
               <BottomNavigationAction
                 key={val}
                 value={val}
-                component={Link}
-                to={val}
                 sx={{
                   p: 0,
                   minWidth: 0,
@@ -86,6 +103,7 @@ export default function BottomNav() {
                     }}
                   />
                 }
+                aria-label={label}
               />
             );
           })}
