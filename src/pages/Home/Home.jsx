@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import VacancyCard from '../../components/VacancyCard/VacancyCard';
 import { Grid, Container, Box, Button, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
@@ -23,9 +23,9 @@ export default function Home() {
     return 20;
   };
 
-  const [right, setRight] = React.useState(computeRight());
+  const [right, setRight] = useState(computeRight());
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleResize = () => setRight(computeRight());
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -48,11 +48,21 @@ export default function Home() {
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
 
+  // Обработчик клика по карточке вакансии
   const handleVacancyClick = (id) => {
     if (!isAuth) {
       setModalOpen(true);
     } else {
       navigate(`/vacancy/${id}`);
+    }
+  };
+
+  // Обработчик клика по кнопке "Добавить"
+  const handleAddClick = () => {
+    if (!isAuth) {
+      setModalOpen(true);
+    } else {
+      navigate('/add-vacancy'); // Укажи свой путь для добавления вакансии
     }
   };
 
@@ -93,9 +103,11 @@ export default function Home() {
           bottom: 100,
           transform: 'translateY(28px)',
         }}
+        onClick={handleAddClick}
       >
         Добавить
       </Button>
+
       <BottomNav />
 
       <AuthRequiredModal open={modalOpen} onClose={() => setModalOpen(false)} />

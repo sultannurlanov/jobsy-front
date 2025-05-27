@@ -10,6 +10,7 @@ import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import ChatListPage from './pages/ChatListPage';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import AuthRequiredModal from './components/AuthRequiredModal';
+import RegistrationForm from './pages/Register/RegistrationForm';
 
 function AppContent() {
   const location = useLocation();
@@ -48,6 +49,7 @@ function AppContent() {
           <Route path="/vacancy/:id" element={<VacancyDetails />} />
           <Route path="/chats" element={<ChatListPage />} />
           <Route path="/chats/:chatId" element={<ChatPage />} />
+          <Route path="/register" element={<RegistrationForm />} />
         </Routes>
 
         {!isVacancyPage && !isChatPage && <BottomNav onNavClick={handleNavClick} />}
